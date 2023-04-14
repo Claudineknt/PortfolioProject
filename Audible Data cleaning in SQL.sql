@@ -15,7 +15,7 @@ UPDATE Audible
 SET ReleaseDateConverted = CONVERT(Date, releasedate)
 
 
---Cleaning the Author column by trimming the 'WrittenBy' statement and generate a new column to store the new result
+--Cleaning the Author column by trimming the 'WrittenBy:' statement and generate a new column to store the new result
 
 
 Select author, SUBSTRING(author, 11, LEN(author))
@@ -33,7 +33,7 @@ SET AuthorUpdated = SUBSTRING(author, 11, LEN(author) -5)
 
 
 
---Cleaning the narrator column by trimming the 'Narratedby' statement and generate a new column to store the new result
+--Cleaning the narrator column by trimming the 'Narratedby:' statement and generate a new column to store the new result
 
 Select narrator, SUBSTRING(narrator, 12, LEN(narrator))
 from PortfolioProject..Audible
@@ -61,7 +61,7 @@ SET StarsUpdated = SUBSTRING(stars,1,1)
 
 
 
---Change Y and N to Yes and No on "Sold as Vacant" field
+--Change Y and N to Yes and No on "Rewatch" field
 --Count the number of instances for each values
 SELECT Distinct(Rewatch), Count(Rewatch)
 FROM PortfolioProject.dbo.Audible
@@ -88,11 +88,8 @@ When Rewatch = 'Y' THEN 'Yes'
 Update Audible	 
 SET Rewatch = COALESCE(Rewatch, 'Not Yet Rated')
 
+
 --Delete Unused columns, NOTE:- this isn't advisavle
-
---Delete Unused Columns
-
-
 ALTER TABLE PortfolioProject..Audible
 Drop Column author, narrator, releasedate, stars
 
