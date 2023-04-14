@@ -140,18 +140,5 @@ Join PortfolioProject..CovidVaccinations Vac
 Select *, (RollingPeopleVaccinated/Population)*100
 from #PercentPopulationVaccinated
 
---CREATING VIEW TO STORE DATA FOR LATER VISUALIZATIONS
-
-Create View PercentPopulationVaccinated as 
-Select Death.continent, Death.location, Death.date, Death.population, Vac.new_vaccinations,
-SUM(CAST(Vac.new_vaccinations as int)) OVER (Partition by Death.location ORDER BY Death.location, 
-Death.date) as RollingPeopleVaccinated
-FROM PortfolioProject..CovidDeaths Death
-Join PortfolioProject..CovidVaccinations Vac
-  ON Death.location=Vac.location
-  and Death.date= Vac.date
-WHERE Death.continent is not null
-------order by 2,3
-
 
 
